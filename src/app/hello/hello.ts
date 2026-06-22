@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 
 @Component({
   selector: 'app-hello',
@@ -7,7 +7,7 @@ import { Component, signal } from '@angular/core';
   styleUrl: './hello.scss',
 })
 export class Hello {
-  protected  title = 'Welcome to Modern Angular!';
+  protected title = 'Welcome to Modern Angular!';
 
   protected isDisabled = false;
 
@@ -18,15 +18,17 @@ export class Hello {
 
   protected count = signal(0);
 
-  increateCounter(): void {
-    this.count.update(value => value + 1);
+  protected doubleCount = computed(() => this.count() * 2);
+
+  protected increateCounter(): void {
+    this.count.update((value) => value + 1);
   }
 
-  decreaseCounter(): void {
-    this.count.update(value => value - 1);
+  protected decreaseCounter(): void {
+    this.count.update((value) => value - 1);
   }
 
-  resetCounter(): void {
+  protected resetCounter(): void {
     this.count.set(0);
   }
 }
