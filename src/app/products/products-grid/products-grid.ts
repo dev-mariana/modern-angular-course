@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
@@ -40,11 +40,19 @@ export class ProductsGrid {
     },
   ]);
 
+  protected readonly filteredProducts = computed(() => {
+    const term = this.searchTerm().toLowerCase().trim();
+
+    if (!term) return this.products();
+
+    return this.products().filter(
+      (product) =>
+        product.name.toLowerCase().includes(term) ||
+        product.description.toLowerCase().includes(term),
+    );
+  });
+
   protected clearSearch() {
     this.searchTerm.set('');
-  }
-
-  protected trimSearch() {
-    this.searchTerm.update((value) => value.trim());
   }
 }
